@@ -24,7 +24,7 @@ jobs:
 
       - name: 🏗️ Start Services with Docker Compose
         run: |
-          docker-compose up -d
+          docker-compose up -d ./green-global-initiative-api
       - name: ⏳ Wait for MySQL to become healthy
         run: |
           echo "Waiting for MySQL container to be healthy..."
