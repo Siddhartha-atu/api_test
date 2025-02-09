@@ -19,16 +19,19 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
+
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: 🏗️ Start Services with Docker Compose
         run: |
-          docker-compose up -d ./green-global-initiative-api
+          docker-compose -f green-global-initiative-api/docker-compose.yml up -d
+
       - name: ⏳ Wait for MySQL to become healthy
         run: |
           echo "Waiting for MySQL container to be healthy..."
           sleep 30  # Give time for the health check to pass
+
       - name: 🔍 Verify Containers are Running
         run: |
           if docker ps --format '{{.Names}}' | grep -q "mysql_container"; then
@@ -44,8 +47,9 @@ jobs:
             echo "❌ Spring Boot app failed to start."
             exit 1
           fi
+
       - name: 🧹 Cleanup
         if: always()
         run: |
           echo "Stopping and removing containers..."
-          docker-compose down
+          docker-compose -f green-global-initiative-api/docker-compose.yml down
