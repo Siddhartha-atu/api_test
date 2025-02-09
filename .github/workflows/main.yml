@@ -64,4 +64,5 @@ jobs:
         if: always()
         run: |
           echo "Stopping and removing containers..."
+          cd green-global-initiative-api
           docker-compose down
